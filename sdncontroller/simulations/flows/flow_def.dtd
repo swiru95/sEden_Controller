@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!ELEMENT flows (switch*)>
+<!ELEMENT switch (entry*)>
+<!ATTLIST switch name CDATA #REQUIRED>
+<!ELEMENT entry (mac-dst+,mac-src+,ip-dst+,ip-src+,in-port+,out-port+)> 
+<!ATTLIST entry num CDATA #REQUIRED>
+<!ELEMENT mac-dst (#PCDATA)>
+<!ELEMENT mac-src (#PCDATA)>
+<!ELEMENT ip-dst (#PCDATA)>
+<!ELEMENT ip-src (#PCDATA)>
+<!ELEMENT in-port (#PCDATA)>
+<!ELEMENT out-port (#PCDATA)>

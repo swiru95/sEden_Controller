@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flows>
+	<switch name="s1">
+		<entry num="1">
+			<mac-dst>AA-AA-AA-AA-AA-A1</mac-dst>
+			<mac-src>AA-AA-AA-AA-AA-A2</mac-src>
+			<ip-dst>1.0.0.1</ip-dst>
+			<ip-src>1.0.0.2</ip-src>
+			<in-port>2</in-port>
+			<out-port>1</out-port>
+		</entry>
+		<entry num="2">
+			<mac-dst>AA-AA-AA-AA-AA-A2</mac-dst>
+			<mac-src>AA-AA-AA-AA-AA-A1</mac-src>
+			<ip-dst>1.0.0.2</ip-dst>
+			<ip-src>1.0.0.1</ip-src>
+			<in-port>1</in-port>
+			<out-port>2</out-port>
+		</entry>
+	</switch>
+	<switch name="s2">
+		<entry num="1">
+			<mac-dst>AA-AA-AA-AA-AA-A1</mac-dst>
+			<mac-src>AA-AA-AA-AA-AA-A2</mac-src>
+			<ip-dst>1.0.0.1</ip-dst>
+			<ip-src>1.0.0.2</ip-src>
+			<in-port>2</in-port>
+			<out-port>1</out-port>
+		</entry>
+		<entry num="2">
+			<mac-dst>AA-AA-AA-AA-AA-A2</mac-dst>
+			<mac-src>AA-AA-AA-AA-AA-A1</mac-src>
+			<ip-dst>1.0.0.2</ip-dst>
+			<ip-src>1.0.0.1</ip-src>
+			<in-port>1</in-port>
+			<out-port>2</out-port>
+		</entry>
+	</switch>
+</flows>
