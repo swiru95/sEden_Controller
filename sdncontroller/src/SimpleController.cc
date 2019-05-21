@@ -452,13 +452,9 @@ void SimpleController::handleSelfMessage(cMessage *msg) {
         switch (type) {
         case ECHO_INTERVAL_TIMER: {
             sendEchoReq(connId);
-            if (timersMap[connId]->isScheduled()) {
-                cancelEvent(timersMap[connId]);
-                timersMap[connId]->setType(ECHO_CANCEL_TIMER);
-                scheduleAt(simTime() + echoCancelInterval, timersMap[connId]);
-                return;
-            }
-            break;
+            timersMap[connId]->setType(ECHO_CANCEL_TIMER);
+            scheduleAt(simTime() + echoCancelInterval, timersMap[connId]);
+            return;
         }
         case ECHO_CANCEL_TIMER: {
             auto request = new Request("close", TCP_C_CLOSE);
@@ -467,40 +463,54 @@ void SimpleController::handleSelfMessage(cMessage *msg) {
             itC2S = con2switch.find(connId);
             itSM = switchMap.find(itC2S->second);
             delete itSM->second;
+            itSM->second = nullptr;
             switchMap.erase(itSM);
             con2switch.erase(itC2S);
             itC2S = con2switch.begin();
             itSM = switchMap.begin();
-            break;
+            delete msg;
+            msg = nullptr;
+            return;
         }
         case PORT_BLOCK_TIMER:
             //TODO Temporary blocking in apps or sth:D
-            break;
+            return;
         case FEATURE_WAIT_TIMER: {
             auto request = new Request("close", TCP_C_CLOSE);
             request->addTagIfAbsent<SocketReq>()->setSocketId(connId);
             sendBack(request);
-            break;
+            return;
         }
         case HELLO_WAIT_TIMER: {
             auto request = new Request("close", TCP_C_CLOSE);
             request->addTagIfAbsent<SocketReq>()->setSocketId(connId);
             sendBack(request);
-            break;
+            return;
         }
         }
         timersMap.erase(connId);
     } else {
         perror("BAD TIMER!");
+        delete msg;
+        msg = nullptr;
     }
-    delete msg;
-    msg = nullptr;
+
 }
 void SimpleController::finish() {
-    EV << "Had connection with:" << endl;
+    int conn = -1;
     itSM = switchMap.begin();
     while (itSM != switchMap.end()) {
-        EV << itSM->second << endl;
+        conn = itSM->second->getConnId();
+        itTM = timersMap.find(conn);
+        if (itTM->second != nullptr) {
+            if (itTM->second->isScheduled()) {
+                cancelEvent(itTM->second);
+            }
+            delete itTM->second;
+            itTM->second = nullptr;
+            timersMap.erase(itTM);
+
+        }
         delete itSM->second;
         switchMap.erase(itSM);
         itSM = switchMap.begin();

@@ -96,6 +96,7 @@ public:
 protected:
     TcpSocket socket;
     map<int,timer*> timersMap;
+    map<int,timer*>::iterator itTM;
 
 
     //TIME INTERVALS
