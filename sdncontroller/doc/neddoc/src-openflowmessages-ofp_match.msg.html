@@ -1,0 +1,73 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+      <link rel="stylesheet" type="text/css" href="style.css" />
+   </head>
+   <body onload="if (top.frames['componentsframe'] == undefined) { s = window.location.toString(); window.location = 'index.html?p=' + s.substring(s.lastIndexOf('/')+1); }">
+<h2 class="comptitle">Msg File <i>src/openflowmessages/ofp_match.msg</i></h2>
+<table class="typestable">
+   <tr>
+      <th class="name">Name</th>
+      <th class="type">Type</th>
+      <th class="description">Description</th>
+   </tr>
+<tr>
+   <td>
+<a href="src-openflowmessages-Ofp_match.html">Ofp_match</a>
+   </td>
+   <td>
+<i>class</i>
+   </td>
+   <td>
+<i>(no description)</i>
+   </td>
+</tr>
+</table>
+<h3 class="subtitle">Source code:</h3>
+<pre class="src"><span style="color: #808080; font-style: italic; ">//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Lesser General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public License
+// along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+</span><span style="color: #000000; ">import</span><span style="color: #000000; "> </span><span style="color: #000000; ">inet</span><span style="color: #000000; ">.</span><span style="color: #000000; ">common</span><span style="color: #000000; ">.</span><span style="color: #000000; ">INETDefs</span><span style="color: #000000; ">;
+</span><span style="color: #000000; ">import</span><span style="color: #000000; "> </span><span style="color: #000000; ">inet</span><span style="color: #000000; ">.</span><span style="color: #000000; ">common</span><span style="color: #000000; ">.</span><span style="color: #000000; ">Units</span><span style="color: #000000; ">;
+</span><span style="color: #000000; ">import</span><span style="color: #000000; "> </span><span style="color: #000000; ">inet</span><span style="color: #000000; ">.</span><span style="color: #000000; ">common</span><span style="color: #000000; ">.</span><span style="color: #800000; font-weight: bold; ">packet</span><span style="color: #000000; ">.</span><span style="color: #000000; ">chunk</span><span style="color: #000000; ">.</span><span style="color: #000000; ">Chunk</span><span style="color: #000000; ">;
+</span><span style="color: #000000; ">import</span><span style="color: #000000; "> </span><span style="color: #000000; ">inet</span><span style="color: #000000; ">.</span><span style="color: #000000; ">linklayer</span><span style="color: #000000; ">.</span><span style="color: #000000; ">common</span><span style="color: #000000; ">.</span><span style="color: #000000; ">MacAddress</span><span style="color: #000000; ">;
+</span><span style="color: #000000; ">import</span><span style="color: #000000; "> </span><span style="color: #000000; ">inet</span><span style="color: #000000; ">.</span><span style="color: #000000; ">networklayer</span><span style="color: #000000; ">.</span><span style="color: #000000; ">contract</span><span style="color: #000000; ">.</span><span style="color: #000000; ">ipv4</span><span style="color: #000000; ">.</span><span style="color: #000000; ">Ipv4Address</span><span style="color: #000000; ">;
+
+</span><span style="color: #800000; font-weight: bold; ">namespace</span><span style="color: #000000; "> </span><span style="color: #000000; ">inet</span><span style="color: #000000; ">;
+
+</span><span style="color: #800000; font-weight: bold; ">class</span><span style="color: #000000; "> </span><span style="color: #000000; ">Ofp_match</span><span style="color: #000000; "> </span><span style="color: #800000; font-weight: bold; ">extends</span><span style="color: #000000; "> </span><span style="color: #000000; ">FieldsChunk</span><span style="color: #000000; "> {
+    
+    </span><span style="color: #000000; ">uint32_t</span><span style="color: #000000; "> </span><span style="color: #000000; ">wildcards</span><span style="color: #000000; ">;
+    </span><span style="color: #000000; ">uint16_t</span><span style="color: #000000; "> </span><span style="color: #000000; ">in_port</span><span style="color: #000000; ">;
+    </span><span style="color: #000000; ">MacAddress</span><span style="color: #000000; "> </span><span style="color: #000000; ">dl_src</span><span style="color: #000000; ">;
+    </span><span style="color: #000000; ">MacAddress</span><span style="color: #000000; "> </span><span style="color: #000000; ">dl_dst</span><span style="color: #000000; ">;
+    </span><span style="color: #000000; ">uint16_t</span><span style="color: #000000; "> </span><span style="color: #000000; ">dl_vlan</span><span style="color: #000000; ">;
+    </span><span style="color: #000000; ">uint8_t</span><span style="color: #000000; "> </span><span style="color: #000000; ">dl_vlan_pcp</span><span style="color: #000000; ">;
+    </span><span style="color: #000000; ">uint8_t</span><span style="color: #000000; "> </span><span style="color: #000000; ">pad1</span><span style="color: #000000; ">[</span><span style="color: #008000; ">1</span><span style="color: #000000; ">];
+    </span><span style="color: #000000; ">uint16_t</span><span style="color: #000000; "> </span><span style="color: #000000; ">dl_type</span><span style="color: #000000; ">;
+    </span><span style="color: #000000; ">uint8_t</span><span style="color: #000000; "> </span><span style="color: #000000; ">nw_tos</span><span style="color: #000000; ">;
+    </span><span style="color: #000000; ">uint8_t</span><span style="color: #000000; "> </span><span style="color: #000000; ">nw_proto</span><span style="color: #000000; ">;
+    </span><span style="color: #000000; ">uint8_t</span><span style="color: #000000; "> </span><span style="color: #000000; ">pad2</span><span style="color: #000000; ">[</span><span style="color: #008000; ">2</span><span style="color: #000000; ">];
+    </span><span style="color: #000000; ">Ipv4Address</span><span style="color: #000000; "> </span><span style="color: #000000; ">nw_src</span><span style="color: #000000; ">;
+    </span><span style="color: #000000; ">Ipv4Address</span><span style="color: #000000; "> </span><span style="color: #000000; ">nw_dst</span><span style="color: #000000; ">;
+    </span><span style="color: #000000; ">uint16_t</span><span style="color: #000000; "> </span><span style="color: #000000; ">tp_src</span><span style="color: #000000; ">;
+    </span><span style="color: #000000; ">uint16_t</span><span style="color: #000000; "> </span><span style="color: #000000; ">tp_dst</span><span style="color: #000000; ">;
+    
+    </span><span style="color: #000000; ">chunkLength</span><span style="color: #000000; ">=</span><span style="color: #000000; ">B</span><span style="color: #000000; ">(</span><span style="color: #008000; ">40</span><span style="color: #000000; ">);
+}   
+    
+    </span></pre>
+   <hr><p class="footer"><a href="http://creativecommons.org/licenses/by-sa/3.0" target="_top"><img src="by-sa.png"></a> This documentation is released under the <a href="http://creativecommons.org/licenses/by-sa/3.0" target="_top">Creative Commons license</a></p>
+   </body>
+</html>

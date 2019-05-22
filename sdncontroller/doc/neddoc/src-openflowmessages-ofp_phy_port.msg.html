@@ -1,0 +1,167 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+      <link rel="stylesheet" type="text/css" href="style.css" />
+   </head>
+   <body onload="if (top.frames['componentsframe'] == undefined) { s = window.location.toString(); window.location = 'index.html?p=' + s.substring(s.lastIndexOf('/')+1); }">
+<h2 class="comptitle">Msg File <i>src/openflowmessages/ofp_phy_port.msg</i></h2>
+<table class="typestable">
+   <tr>
+      <th class="name">Name</th>
+      <th class="type">Type</th>
+      <th class="description">Description</th>
+   </tr>
+<tr>
+   <td>
+<a href="src-openflowmessages-phy_port_id.html">phy_port_id</a>
+   </td>
+   <td>
+<i>enum</i>
+   </td>
+   <td>
+<i>(no description)</i>
+   </td>
+</tr>
+<tr>
+   <td>
+<a href="src-openflowmessages-phy_port_config.html">phy_port_config</a>
+   </td>
+   <td>
+<i>enum</i>
+   </td>
+   <td>
+<i>(no description)</i>
+   </td>
+</tr>
+<tr>
+   <td>
+<a href="src-openflowmessages-phy_port_state.html">phy_port_state</a>
+   </td>
+   <td>
+<i>enum</i>
+   </td>
+   <td>
+<i>(no description)</i>
+   </td>
+</tr>
+<tr>
+   <td>
+<a href="src-openflowmessages-phy_port_feature.html">phy_port_feature</a>
+   </td>
+   <td>
+<i>enum</i>
+   </td>
+   <td>
+<i>(no description)</i>
+   </td>
+</tr>
+<tr>
+   <td>
+<a href="src-openflowmessages-Ofp_phy_port.html">Ofp_phy_port</a>
+   </td>
+   <td>
+<i>class</i>
+   </td>
+   <td>
+<i>(no description)</i>
+   </td>
+</tr>
+<tr>
+   <td>
+<a href="src-openflowmessages-Ofp_port_mode.html">Ofp_port_mode</a>
+   </td>
+   <td>
+<i>class</i>
+   </td>
+   <td>
+<i>(no description)</i>
+   </td>
+</tr>
+</table>
+<h3 class="subtitle">Source code:</h3>
+<pre class="src"><span style="color: #808080; font-style: italic; ">//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Lesser General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public License
+// along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+</span><span style="color: #000000; ">import</span><span style="color: #000000; "> </span><span style="color: #000000; ">inet</span><span style="color: #000000; ">.</span><span style="color: #000000; ">common</span><span style="color: #000000; ">.</span><span style="color: #000000; ">INETDefs</span><span style="color: #000000; ">;
+</span><span style="color: #000000; ">import</span><span style="color: #000000; "> </span><span style="color: #000000; ">inet</span><span style="color: #000000; ">.</span><span style="color: #000000; ">common</span><span style="color: #000000; ">.</span><span style="color: #000000; ">Units</span><span style="color: #000000; ">;
+</span><span style="color: #000000; ">import</span><span style="color: #000000; "> </span><span style="color: #000000; ">inet</span><span style="color: #000000; ">.</span><span style="color: #000000; ">common</span><span style="color: #000000; ">.</span><span style="color: #800000; font-weight: bold; ">packet</span><span style="color: #000000; ">.</span><span style="color: #000000; ">chunk</span><span style="color: #000000; ">.</span><span style="color: #000000; ">Chunk</span><span style="color: #000000; ">;
+</span><span style="color: #000000; ">import</span><span style="color: #000000; "> </span><span style="color: #000000; ">inet</span><span style="color: #000000; ">.</span><span style="color: #000000; ">linklayer</span><span style="color: #000000; ">.</span><span style="color: #000000; ">common</span><span style="color: #000000; ">.</span><span style="color: #000000; ">MacAddress</span><span style="color: #000000; ">;
+
+</span><span style="color: #800000; font-weight: bold; ">namespace</span><span style="color: #000000; "> </span><span style="color: #000000; ">inet</span><span style="color: #000000; ">;
+</span><span style="color: #800000; font-weight: bold; ">enum</span><span style="color: #000000; "> </span><span style="color: #000000; ">phy_port_id</span><span style="color: #000000; ">{
+  	  </span><span style="color: #000000; ">MAX</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">xFF00</span><span style="color: #000000; ">;
+  	  </span><span style="color: #000000; ">IN_PORT</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">xFFF8</span><span style="color: #000000; ">;
+  	  </span><span style="color: #000000; ">TABLE</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">xFFF9</span><span style="color: #000000; ">;
+  	  </span><span style="color: #000000; ">NORMAL</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">xFFFA</span><span style="color: #000000; ">;
+  	  </span><span style="color: #000000; ">FLOOD</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">xFFFB</span><span style="color: #000000; ">;
+  	  </span><span style="color: #000000; ">ALL</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">xFFFC</span><span style="color: #000000; ">;
+  	  </span><span style="color: #000000; ">CONTROLLER</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">xFFFD</span><span style="color: #000000; ">;
+  	  </span><span style="color: #000000; ">LOCAL</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">xFFFE</span><span style="color: #000000; ">;
+  	  </span><span style="color: #000000; ">NONE</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">xFFFF</span><span style="color: #000000; ">;
+};
+</span><span style="color: #800000; font-weight: bold; ">enum</span><span style="color: #000000; "> </span><span style="color: #000000; ">phy_port_config</span><span style="color: #000000; ">{
+	</span><span style="color: #000000; ">PORT_DOWN</span><span style="color: #000000; ">    = </span><span style="color: #008000; ">0</span><span style="color: #000000; ">x00000001</span><span style="color: #000000; ">;
+	</span><span style="color: #000000; ">NO_STP</span><span style="color: #000000; ">       = </span><span style="color: #008000; ">0</span><span style="color: #000000; ">x00000002</span><span style="color: #000000; ">;
+	</span><span style="color: #000000; ">NO_RECV</span><span style="color: #000000; ">      = </span><span style="color: #008000; ">0</span><span style="color: #000000; ">x00000004</span><span style="color: #000000; ">;
+	</span><span style="color: #000000; ">NO_RECV_STP</span><span style="color: #000000; ">  = </span><span style="color: #008000; ">0</span><span style="color: #000000; ">x00000008</span><span style="color: #000000; ">;
+	</span><span style="color: #000000; ">NO_FLOOD</span><span style="color: #000000; ">     = </span><span style="color: #008000; ">0</span><span style="color: #000000; ">x00000010</span><span style="color: #000000; ">;
+	</span><span style="color: #000000; ">NO_FWD</span><span style="color: #000000; ">       = </span><span style="color: #008000; ">0</span><span style="color: #000000; ">x00000020</span><span style="color: #000000; ">;
+	</span><span style="color: #000000; ">NO_PACKET_IN</span><span style="color: #000000; "> = </span><span style="color: #008000; ">0</span><span style="color: #000000; ">x00000040</span><span style="color: #000000; ">;
+};
+</span><span style="color: #800000; font-weight: bold; ">enum</span><span style="color: #000000; "> </span><span style="color: #000000; ">phy_port_state</span><span style="color: #000000; ">{
+ 	</span><span style="color: #000000; ">STP_LSITEN</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">x00000000</span><span style="color: #000000; ">;
+ 	</span><span style="color: #000000; ">LINK_DOWN</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">x00000001</span><span style="color: #000000; ">;
+ 	</span><span style="color: #000000; ">STP_LEARN</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">x00000002</span><span style="color: #000000; ">;
+ 	</span><span style="color: #000000; ">STP_FORWARD</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">x00000004</span><span style="color: #000000; ">;
+ 	</span><span style="color: #000000; ">STP_BLOCK</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">x00000008</span><span style="color: #000000; ">;
+ 	</span><span style="color: #000000; ">STP_MASK</span><span style="color: #000000; "> =</span><span style="color: #008000; ">0</span><span style="color: #000000; ">x00000010</span><span style="color: #000000; ">;  
+};
+</span><span style="color: #800000; font-weight: bold; ">enum</span><span style="color: #000000; "> </span><span style="color: #000000; ">phy_port_feature</span><span style="color: #000000; ">{
+ 	</span><span style="color: #000000; ">TEN_MB_HD</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">x00000001</span><span style="color: #000000; ">;
+	</span><span style="color: #000000; ">TEN_MB_FD</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">x00000002</span><span style="color: #000000; ">;
+	</span><span style="color: #000000; ">HUN_MB_HD</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">x00000004</span><span style="color: #000000; ">;
+	</span><span style="color: #000000; ">HUN_MB_FD</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">x00000008</span><span style="color: #000000; ">;
+	</span><span style="color: #000000; ">GB_HD</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">x00000010</span><span style="color: #000000; ">;
+	</span><span style="color: #000000; ">GB_FD</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">x00000020</span><span style="color: #000000; ">;
+	</span><span style="color: #000000; ">TEN_GB_FD</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">x00000040</span><span style="color: #000000; ">;
+	</span><span style="color: #000000; ">COOPER</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">x00000080</span><span style="color: #000000; ">;
+	</span><span style="color: #000000; ">FIBER</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">x00000100</span><span style="color: #000000; ">;
+	</span><span style="color: #000000; ">AUTONEG</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">x00000200</span><span style="color: #000000; ">;
+	</span><span style="color: #000000; ">PAUSE</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">x00000400</span><span style="color: #000000; ">;
+	</span><span style="color: #000000; ">PAUSE_ASYM</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">x00000800</span><span style="color: #000000; ">;
+};
+</span><span style="color: #800000; font-weight: bold; ">class</span><span style="color: #000000; "> </span><span style="color: #000000; ">Ofp_phy_port</span><span style="color: #000000; "> </span><span style="color: #800000; font-weight: bold; ">extends</span><span style="color: #000000; "> </span><span style="color: #000000; ">FieldsChunk</span><span style="color: #000000; ">{
+	</span><span style="color: #000000; ">uint16_t</span><span style="color: #000000; "> </span><span style="color: #000000; ">port_no</span><span style="color: #000000; ">;
+	</span><span style="color: #000000; ">MacAddress</span><span style="color: #000000; "> </span><span style="color: #000000; ">hw_addr</span><span style="color: #000000; ">;
+	</span><span style="color: #000080; font-weight: bold; ">char</span><span style="color: #000000; "> </span><span style="color: #000000; ">name</span><span style="color: #000000; ">[</span><span style="color: #008000; ">16</span><span style="color: #000000; ">];
+	</span><span style="color: #000000; ">uint32_t</span><span style="color: #000000; "> </span><span style="color: #000000; ">config</span><span style="color: #000000; ">;
+	</span><span style="color: #000000; ">uint32_t</span><span style="color: #000000; "> </span><span style="color: #000000; ">state</span><span style="color: #000000; ">;
+	</span><span style="color: #000000; ">uint32_t</span><span style="color: #000000; "> </span><span style="color: #000000; ">curr</span><span style="color: #000000; ">;
+	</span><span style="color: #000000; ">uint32_t</span><span style="color: #000000; "> </span><span style="color: #000000; ">advertised</span><span style="color: #000000; ">;
+	</span><span style="color: #000000; ">uint32_t</span><span style="color: #000000; "> </span><span style="color: #000000; ">supported</span><span style="color: #000000; ">;
+	</span><span style="color: #000000; ">uint32_t</span><span style="color: #000000; "> </span><span style="color: #000000; ">peer</span><span style="color: #000000; ">;
+	</span><span style="color: #000000; ">chunkLength</span><span style="color: #000000; ">=</span><span style="color: #000000; ">B</span><span style="color: #000000; ">(</span><span style="color: #008000; ">48</span><span style="color: #000000; ">);
+}
+</span><span style="color: #800000; font-weight: bold; ">class</span><span style="color: #000000; "> </span><span style="color: #000000; ">Ofp_port_mode</span><span style="color: #000000; "> </span><span style="color: #800000; font-weight: bold; ">extends</span><span style="color: #000000; "> </span><span style="color: #000000; ">FieldsChunk</span><span style="color: #000000; ">{
+	</span><span style="color: #000000; ">uint16_t</span><span style="color: #000000; "> </span><span style="color: #000000; ">port_no</span><span style="color: #000000; ">;
+	</span><span style="color: #000000; ">MacAddress</span><span style="color: #000000; "> </span><span style="color: #000000; ">hw_addr</span><span style="color: #000000; ">;
+	</span><span style="color: #000000; ">uint32_t</span><span style="color: #000000; "> </span><span style="color: #000000; ">config</span><span style="color: #000000; ">;
+	</span><span style="color: #000000; ">uint32_t</span><span style="color: #000000; "> </span><span style="color: #000000; ">mask</span><span style="color: #000000; ">;
+	</span><span style="color: #000000; ">uint32_t</span><span style="color: #000000; "> </span><span style="color: #000000; ">advertise</span><span style="color: #000000; ">;
+	</span><span style="color: #000000; ">uint64_t</span><span style="color: #000000; "> </span><span style="color: #000000; ">pad</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">;
+	</span><span style="color: #000000; ">chunkLength</span><span style="color: #000000; ">=</span><span style="color: #000000; ">B</span><span style="color: #000000; ">(</span><span style="color: #008000; ">24</span><span style="color: #000000; ">);
+}</span></pre>
+   <hr><p class="footer"><a href="http://creativecommons.org/licenses/by-sa/3.0" target="_top"><img src="by-sa.png"></a> This documentation is released under the <a href="http://creativecommons.org/licenses/by-sa/3.0" target="_top">Creative Commons license</a></p>
+   </body>
+</html>

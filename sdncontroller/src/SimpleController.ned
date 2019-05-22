@@ -16,6 +16,7 @@
 package sdncontroller;
 import inet.applications.contract.IApp;
 //
+// ~SimpleController is heritaged from IApp
 // Module works like SDN controller which supports OFPv100 protocol.
 // You can edit, add your own applications
 // Applications already done:

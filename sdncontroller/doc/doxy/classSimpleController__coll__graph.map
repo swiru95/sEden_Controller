@@ -1,0 +1,12 @@
+<map id="SimpleController" name="SimpleController">
+<area shape="rect" id="node2" href="/home/chris/omnetpp-5.4.1/doc/api/opptags.xml$classomnetpp_1_1cSimpleModule.html" title="omnetpp::cSimpleModule" alt="" coords="96,552,265,579"/>
+<area shape="rect" id="node3" href="/home/chris/omnetpp-5.4.1/doc/api/opptags.xml$classomnetpp_1_1cModule.html" title="omnetpp::cModule" alt="" coords="116,476,245,503"/>
+<area shape="rect" id="node4" href="/home/chris/omnetpp-5.4.1/doc/api/opptags.xml$classomnetpp_1_1cComponent.html" title="omnetpp::cComponent" alt="" coords="103,400,258,427"/>
+<area shape="rect" id="node5" href="/home/chris/omnetpp-5.4.1/doc/api/opptags.xml$classomnetpp_1_1cDefaultList.html" title="omnetpp::cDefaultList" alt="" coords="105,324,256,351"/>
+<area shape="rect" id="node6" href="/home/chris/omnetpp-5.4.1/doc/api/opptags.xml$classomnetpp_1_1cNoncopyableOwnedObject.html" title="omnetpp::cNoncopyableOwned\lObject" alt="" coords="79,233,283,275"/>
+<area shape="rect" id="node7" href="/home/chris/omnetpp-5.4.1/doc/api/opptags.xml$classomnetpp_1_1cOwnedObject.html" title="omnetpp::cOwnedObject" alt="" coords="5,157,172,184"/>
+<area shape="rect" id="node8" href="/home/chris/omnetpp-5.4.1/doc/api/opptags.xml$classomnetpp_1_1cNamedObject.html" title="omnetpp::cNamedObject" alt="" coords="5,81,172,108"/>
+<area shape="rect" id="node9" href="/home/chris/omnetpp-5.4.1/doc/api/opptags.xml$classomnetpp_1_1cObject.html" title="omnetpp::cObject" alt="" coords="26,5,151,32"/>
+<area shape="rect" id="node10" href="/home/chris/omnetpp-5.4.1/doc/api/opptags.xml$classomnetpp_1_1noncopyable.html" title="omnetpp::noncopyable" alt="" coords="196,157,349,184"/>
+<area shape="rect" id="node12" href="/home/chris/omnetpp-5.4.1/doc/api/opptags.xml$classomnetpp_1_1SimTime.html" title="omnetpp::SimTime" alt="" coords="392,552,524,579"/>
+</map>

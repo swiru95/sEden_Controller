@@ -1,0 +1,9 @@
+<area shape="rect" id="node1" href="ned.DatarateChannel.html" title="Channel DatarateChannel" alt="" coords="5,5,125,31">
+<area shape="rect" id="node2" href="ned.DelayChannel.html" title="Channel DelayChannel" alt="" coords="149,5,253,31">
+<area shape="rect" id="node3" href="ned.IBidirectionalChannel.html" title="Module Interface IBidirectionalChannel" alt="" coords="278,5,423,31">
+<area shape="rect" id="node4" href="ned.IdealChannel.html" title="Channel IdealChannel" alt="" coords="448,5,547,31">
+<area shape="rect" id="node5" href="ned.IUnidirectionalChannel.html" title="Module Interface IUnidirectionalChannel" alt="" coords="571,5,725,31">
+<area shape="rect" id="node6" href="sdncontroller.simulations.Net1.html" title="Network Net1" alt="" coords="749,5,821,31">
+<area shape="rect" id="node7" href="sdncontroller.simulations.Network.html" title="Network Network" alt="" coords="845,5,917,31">
+<area shape="rect" id="node8" href="sdncontroller.SimpleController.html" title="Simple Module SimpleController" alt="" coords="918,79,1037,104">
+<area shape="rect" id="node9" href="../../../inet4/doc/neddoc/inet.applications.contract.IApp.html" title="Module Interface IApp" alt="" coords="941,5,1013,31">

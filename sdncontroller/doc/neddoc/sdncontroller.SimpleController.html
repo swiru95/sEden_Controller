@@ -1,0 +1,283 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+      <link rel="stylesheet" type="text/css" href="style.css" />
+   </head>
+   <body onload="if (top.frames['componentsframe'] == undefined) { s = window.location.toString(); window.location = 'index.html?p=' + s.substring(s.lastIndexOf('/')+1); }">
+<h2 class="comptitle">Simple Module <i>SimpleController</i></h2>
+<b>Package:</b> sdncontroller<br/><b>File: <a href="src-SimpleController.ned.html">src/SimpleController.ned</a></b><br/><p><a href="../doxy/classSimpleController.html" target="mainframe"><b>C++ definition</b></a></p>
+
+<p>~<a href="sdncontroller.SimpleController.html">SimpleController</a> is heritaged from IApp
+Module works like SDN controller which supports OFPv100 protocol.
+You can edit, add your own applications
+Applications already done:
+   App1,App2,App3,App4
+(Descryption of apps are in api.cc)</p>
+<img src="sdncontroller.SimpleController-type.png" ismap="yes" usemap="#type-diagram"/><map name="type-diagram">
+<area shape="rect" href="sdncontroller.SimpleController.html" title="SimpleController" alt="SimpleController" coords="0,31,159,71">
+</map>
+<h3 class="subtitle">Usage diagram:</h3>
+<p>The following diagram shows usage relationships between types.
+Unresolved types are missing from the diagram. Click <a href="full-ned-usage-diagram.html">here</a> to see the full picture.</p>
+<img src="sdncontroller.SimpleController-usage.png" ismap="yes" usemap="#usage-diagram"/><map name="usage-diagram"><area shape="rect" id="node1" href="sdncontroller.SimpleController.html" title="Simple Module SimpleController" alt="" coords="5,5,124,31">
+</map>
+<h3 class="subtitle">Inheritance diagram:</h3>
+<p>The following diagram shows inheritance relationships for this type.
+Unresolved types are missing from the diagram. Click <a href="full-ned-inheritance-diagram.html">here</a> to see the full picture.</p>
+<img src="sdncontroller.SimpleController-inheritance.png" ismap="yes" usemap="#inheritance-diagram"/><map name="inheritance-diagram"><area shape="rect" id="node1" href="sdncontroller.SimpleController.html" title="Simple Module SimpleController" alt="" coords="5,79,124,104">
+<area shape="rect" id="node2" href="../../../inet4/doc/neddoc/inet.applications.contract.IApp.html" title="Module Interface IApp" alt="" coords="29,5,101,31">
+</map>
+<h3 class="subtitle">Parameters:</h3>
+<table class="paramstable">
+   <tr>
+      <th class="name">Name</th>
+      <th class="type">Type</th>
+      <th class="defaultvalue">Default value</th>
+      <th class="description">Description</th>
+   </tr>
+<tr class="local">
+   <td>localAddress</td>
+   <td>
+      <i>string</i>
+   </td>
+   <td>""</td>
+   <td>
+<p>Controller socket parameters</p>
+   </td>
+</tr>
+<tr class="local">
+   <td>localPort</td>
+   <td>
+      <i>int</i>
+   </td>
+   <td>6633</td>
+   <td>
+<p>localPort number to listen on</p>
+   </td>
+</tr>
+<tr class="local">
+   <td>echoInterval</td>
+   <td>
+      <i>double</i>
+   </td>
+   <td>5ms</td>
+   <td>
+<p>Some openflow and controllerStateFlow params</p>
+   </td>
+</tr>
+<tr class="local">
+   <td>echoCancelInterval</td>
+   <td>
+      <i>double</i>
+   </td>
+   <td>200ms</td>
+   <td>
+<p>waiting for EchoReqMsg interval</p>
+   </td>
+</tr>
+<tr class="local">
+   <td>helloWaitInterval</td>
+   <td>
+      <i>double</i>
+   </td>
+   <td>500ms</td>
+   <td>
+<p>waiting for Hello in HelloWaitingState</p>
+   </td>
+</tr>
+<tr class="local">
+   <td>featuresWaitInterval</td>
+   <td>
+      <i>double</i>
+   </td>
+   <td>500ms</td>
+   <td>
+<p>waiting for Features in FeatureWaitState</p>
+   </td>
+</tr>
+<tr class="local">
+   <td>time_idle</td>
+   <td>
+      <i>int</i>
+   </td>
+   <td>5</td>
+   <td>
+<p>Idle time for ofp matches</p>
+   </td>
+</tr>
+<tr class="local">
+   <td>time_hard</td>
+   <td>
+      <i>int</i>
+   </td>
+   <td>0</td>
+   <td>
+<p>Hard time for ofp matches</p>
+   </td>
+</tr>
+<tr class="local">
+   <td>log2file</td>
+   <td>
+      <i>bool</i>
+   </td>
+   <td>false</td>
+   <td>
+<p>Logging errors to file   
+File is placed in simulations/logs .log ext.  
+You can run Wireshark to capture some packets and monitor the flows</p>
+   </td>
+</tr>
+<tr class="local">
+   <td>runWireshark</td>
+   <td>
+      <i>bool</i>
+   </td>
+   <td>false</td>
+   <td>
+<p>running Wireshark</p>
+   </td>
+</tr>
+<tr class="local">
+   <td>anyWiresharkCaptureInterface</td>
+   <td>
+      <i>bool</i>
+   </td>
+   <td>true</td>
+   <td>
+<p>set wireshark capturing interface filter to "any"</p>
+   </td>
+</tr>
+<tr class="local">
+   <td>wiresharkCaptureInterface</td>
+   <td>
+      <i>string</i>
+   </td>
+   <td>"local"</td>
+   <td>
+<p>which interface is going to be listened (local=**.ext[0].*.device)</p>
+   </td>
+</tr>
+<tr class="local">
+   <td>runMininet</td>
+   <td>
+      <i>bool</i>
+   </td>
+   <td>true</td>
+   <td>
+<p>You can run Mininet from Omnet</p>
+   </td>
+</tr>
+<tr class="local">
+   <td>mntopo</td>
+   <td>
+      <i>string</i>
+   </td>
+   <td>""</td>
+   <td>
+<p>you can specify your own topology in *.py files in simulations/mnnets 
+and there you can just write name of file without py extention</p>
+   </td>
+</tr>
+<tr class="local">
+   <td>application</td>
+   <td>
+      <i>string</i>
+   </td>
+   <td>""</td>
+   <td>
+<p>name of application</p>
+   </td>
+</tr>
+<tr class="local">
+   <td>flows</td>
+   <td>
+      <i>xml</i>
+   </td>
+   <td>xmldoc("")</td>
+   <td>
+<p>For app1,2,4 xml is used</p>
+   </td>
+</tr>
+<tr class="local">
+   <td>dbIpAddr</td>
+   <td>
+      <i>string</i>
+   </td>
+   <td>"localhost"</td>
+   <td>
+<p>There is an App3 where Database is used you can specify parameters to connect.</p>
+   </td>
+</tr>
+<tr class="local">
+   <td>dbPort</td>
+   <td>
+      <i>string</i>
+   </td>
+   <td>"6603"</td>
+   <td>
+<p>DB port</p>
+   </td>
+</tr>
+<tr class="local">
+   <td>dbName</td>
+   <td>
+      <i>string</i>
+   </td>
+   <td>""</td>
+   <td>
+<p>name of DB</p>
+   </td>
+</tr>
+<tr class="local">
+   <td>dbUser</td>
+   <td>
+      <i>string</i>
+   </td>
+   <td>""</td>
+   <td>
+<p>Name of DB user</p>
+   </td>
+</tr>
+<tr class="local">
+   <td>dbPassword</td>
+   <td>
+      <i>string</i>
+   </td>
+   <td>""</td>
+   <td>
+<p>DB password (optional)</p>
+   </td>
+</tr>
+<tr class="local">
+   <td>dbErrorName</td>
+   <td>
+      <i>string</i>
+   </td>
+   <td>""</td>
+   <td>
+<p>TO be done: logging errors not to file but to DB table! WoW</p>
+   </td>
+</tr>
+</table>
+<h3 class="subtitle">Gates:</h3>
+<table class="gatestable">
+   <tr>
+      <th class="name">Name</th>
+      <th class="type">Direction</th>
+      <th class="gatesize">Size</th>
+      <th class="description">Description</th>
+   </tr>
+<tr class="local">
+   <td>socketIn</xsl:if></td>
+   <td><i>input</i></td>
+   <td></td>   <td></td>
+</tr>
+<tr class="local">
+   <td>socketOut</xsl:if></td>
+   <td><i>output</i></td>
+   <td></td>   <td></td>
+</tr>
+</table>
+   <hr><p class="footer"><a href="http://creativecommons.org/licenses/by-sa/3.0" target="_top"><img src="by-sa.png"></a> This documentation is released under the <a href="http://creativecommons.org/licenses/by-sa/3.0" target="_top">Creative Commons license</a></p>
+   </body>
+</html>

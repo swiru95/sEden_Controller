@@ -1,0 +1,192 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+      <link rel="stylesheet" type="text/css" href="style.css" />
+   </head>
+   <body onload="if (top.frames['componentsframe'] == undefined) { s = window.location.toString(); window.location = 'index.html?p=' + s.substring(s.lastIndexOf('/')+1); }">
+<h2 class="comptitle">Msg File <i>src/openflowmessages/ofp_error.msg</i></h2>
+<table class="typestable">
+   <tr>
+      <th class="name">Name</th>
+      <th class="type">Type</th>
+      <th class="description">Description</th>
+   </tr>
+<tr>
+   <td>
+<a href="src-openflowmessages-Ofp_er_type.html">Ofp_er_type</a>
+   </td>
+   <td>
+<i>enum</i>
+   </td>
+   <td>
+<i>(no description)</i>
+   </td>
+</tr>
+<tr>
+   <td>
+<a href="src-openflowmessages-Of_hf_er_code.html">Of_hf_er_code</a>
+   </td>
+   <td>
+<i>enum</i>
+   </td>
+   <td>
+<i>(no description)</i>
+   </td>
+</tr>
+<tr>
+   <td>
+<a href="src-openflowmessages-Of_br_er_code.html">Of_br_er_code</a>
+   </td>
+   <td>
+<i>enum</i>
+   </td>
+   <td>
+<i>(no description)</i>
+   </td>
+</tr>
+<tr>
+   <td>
+<a href="src-openflowmessages-Of_ba_er_code.html">Of_ba_er_code</a>
+   </td>
+   <td>
+<i>enum</i>
+   </td>
+   <td>
+<i>(no description)</i>
+   </td>
+</tr>
+<tr>
+   <td>
+<a href="src-openflowmessages-Of_ofmf_er_code.html">Of_ofmf_er_code</a>
+   </td>
+   <td>
+<i>enum</i>
+   </td>
+   <td>
+<i>(no description)</i>
+   </td>
+</tr>
+<tr>
+   <td>
+<a href="src-openflowmessages-Of_opmf_er_code.html">Of_opmf_er_code</a>
+   </td>
+   <td>
+<i>enum</i>
+   </td>
+   <td>
+<i>(no description)</i>
+   </td>
+</tr>
+<tr>
+   <td>
+<a href="src-openflowmessages-Of_oqof_er_code.html">Of_oqof_er_code</a>
+   </td>
+   <td>
+<i>enum</i>
+   </td>
+   <td>
+<i>(no description)</i>
+   </td>
+</tr>
+<tr>
+   <td>
+<a href="src-openflowmessages-Ofp_error.html">Ofp_error</a>
+   </td>
+   <td>
+<i>class</i>
+   </td>
+   <td>
+<i>(no description)</i>
+   </td>
+</tr>
+</table>
+<h3 class="subtitle">Source code:</h3>
+<pre class="src"><span style="color: #808080; font-style: italic; ">//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Lesser General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public License
+// along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+</span><span style="color: #000000; ">import</span><span style="color: #000000; "> </span><span style="color: #000000; ">inet</span><span style="color: #000000; ">.</span><span style="color: #000000; ">common</span><span style="color: #000000; ">.</span><span style="color: #000000; ">INETDefs</span><span style="color: #000000; ">;
+</span><span style="color: #000000; ">import</span><span style="color: #000000; "> </span><span style="color: #000000; ">inet</span><span style="color: #000000; ">.</span><span style="color: #000000; ">common</span><span style="color: #000000; ">.</span><span style="color: #000000; ">Units</span><span style="color: #000000; ">;
+</span><span style="color: #000000; ">import</span><span style="color: #000000; "> </span><span style="color: #000000; ">inet</span><span style="color: #000000; ">.</span><span style="color: #000000; ">common</span><span style="color: #000000; ">.</span><span style="color: #800000; font-weight: bold; ">packet</span><span style="color: #000000; ">.</span><span style="color: #000000; ">chunk</span><span style="color: #000000; ">.</span><span style="color: #000000; ">Chunk</span><span style="color: #000000; ">;
+
+</span><span style="color: #800000; font-weight: bold; ">namespace</span><span style="color: #000000; "> </span><span style="color: #000000; ">inet</span><span style="color: #000000; ">;
+
+</span><span style="color: #800000; font-weight: bold; ">enum</span><span style="color: #000000; "> </span><span style="color: #000000; ">Ofp_er_type</span><span style="color: #000000; ">{
+ 	</span><span style="color: #000000; ">HELLO_FAILED</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">X0000</span><span style="color: #000000; ">;
+ 	</span><span style="color: #000000; ">BAD_REQUEST</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">X0001</span><span style="color: #000000; ">;
+ 	</span><span style="color: #000000; ">BAD_ACTION</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">X0002</span><span style="color: #000000; ">;
+ 	</span><span style="color: #000000; ">FLOW_MOD_FAILED</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">X0003</span><span style="color: #000000; ">;     
+ 	</span><span style="color: #000000; ">PORT_MOD_FAILED</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">X0004</span><span style="color: #000000; ">;
+ 	</span><span style="color: #000000; ">QUEUE_OP_FAILED</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">X0005</span><span style="color: #000000; ">;
+};
+</span><span style="color: #800000; font-weight: bold; ">enum</span><span style="color: #000000; "> </span><span style="color: #000000; ">Of_hf_er_code</span><span style="color: #000000; ">{
+    </span><span style="color: #808080; font-style: italic; ">//HF
+</span><span style="color: #000000; ">    </span><span style="color: #000000; ">HF_INCOMPATIBLE</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">X0000</span><span style="color: #000000; ">;
+    </span><span style="color: #000000; ">HF_EPERM</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">X0001</span><span style="color: #000000; ">;
+};
+</span><span style="color: #800000; font-weight: bold; ">enum</span><span style="color: #000000; "> </span><span style="color: #000000; ">Of_br_er_code</span><span style="color: #000000; ">{
+    </span><span style="color: #808080; font-style: italic; ">//BR
+</span><span style="color: #000000; ">    </span><span style="color: #000000; ">BR_BAD_VERSION</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">X0000</span><span style="color: #000000; ">;
+    </span><span style="color: #000000; ">BR_BAD_TYPE</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">X0001</span><span style="color: #000000; ">;
+    </span><span style="color: #000000; ">BR_BAD_STAT</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">X0002</span><span style="color: #000000; ">;
+    </span><span style="color: #000000; ">BR_BAD_VENDOR</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">X0003</span><span style="color: #000000; ">;
+    </span><span style="color: #000000; ">BR_BAD_SUBTYPE</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">X0004</span><span style="color: #000000; ">;
+    </span><span style="color: #000000; ">BR_EPERM</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">X0005</span><span style="color: #000000; ">;
+    </span><span style="color: #000000; ">BR_BAD_LENGTH</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">X0006</span><span style="color: #000000; ">;
+    </span><span style="color: #000000; ">BR_BUFFER_EMPTY</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">X0007</span><span style="color: #000000; ">;
+    </span><span style="color: #000000; ">BR_BUFFER_UKNOWN</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">X0008</span><span style="color: #000000; ">;
+};
+</span><span style="color: #800000; font-weight: bold; ">enum</span><span style="color: #000000; "> </span><span style="color: #000000; ">Of_ba_er_code</span><span style="color: #000000; ">{
+	</span><span style="color: #808080; font-style: italic; ">//BA
+</span><span style="color: #000000; ">	</span><span style="color: #000000; ">BA_BAD_TYPE</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">X0000</span><span style="color: #000000; ">;
+	</span><span style="color: #000000; ">BA_BAD_LENGTH</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">X0001</span><span style="color: #000000; ">;
+	</span><span style="color: #000000; ">BA_BAD_VENDOR</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">X0002</span><span style="color: #000000; ">;
+	</span><span style="color: #000000; ">BA_BAD_VENDOR_TYPE</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">X0003</span><span style="color: #000000; ">;
+	</span><span style="color: #000000; ">BA_BAD_OUT_PORT</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">X0004</span><span style="color: #000000; ">;
+	</span><span style="color: #000000; ">BA_BAD_ARGUMENTS</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">X0005</span><span style="color: #000000; ">;
+	</span><span style="color: #000000; ">BA_EPERM</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">X0006</span><span style="color: #000000; ">;
+	</span><span style="color: #000000; ">BA_TOO_MANY</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">X0007</span><span style="color: #000000; ">;
+	</span><span style="color: #000000; ">BA_BAD_QUEUE</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">X0008</span><span style="color: #000000; ">;
+};
+</span><span style="color: #800000; font-weight: bold; ">enum</span><span style="color: #000000; "> </span><span style="color: #000000; ">Of_ofmf_er_code</span><span style="color: #000000; ">{	
+	</span><span style="color: #808080; font-style: italic; ">//OFMF
+</span><span style="color: #000000; ">	</span><span style="color: #000000; ">FMF_ALL_TABLES_FULL</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">x0000</span><span style="color: #000000; ">;  
+	</span><span style="color: #000000; ">FMF_OVERLAP</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">x0001</span><span style="color: #000000; ">;
+	</span><span style="color: #000000; ">FMF_EPERM</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">x0002</span><span style="color: #000000; ">;
+	</span><span style="color: #000000; ">FMF_BAD_EMERG_TIMEOUT</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">x0003</span><span style="color: #000000; ">;
+	</span><span style="color: #000000; ">FMF_BAD_COMMAND</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">x0004</span><span style="color: #000000; ">;
+	</span><span style="color: #000000; ">FMF_UNSUPPORTED</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">x0005</span><span style="color: #000000; ">;
+};
+</span><span style="color: #800000; font-weight: bold; ">enum</span><span style="color: #000000; "> </span><span style="color: #000000; ">Of_opmf_er_code</span><span style="color: #000000; "> {
+    </span><span style="color: #808080; font-style: italic; ">//OPMF
+</span><span style="color: #000000; ">    </span><span style="color: #000000; ">PMF_BAD_PORT</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">x0001</span><span style="color: #000000; ">;
+    </span><span style="color: #000000; ">PMF_BAD_HW_ADDR</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">x0002</span><span style="color: #000000; ">;
+};
+</span><span style="color: #800000; font-weight: bold; ">enum</span><span style="color: #000000; "> </span><span style="color: #000000; ">Of_oqof_er_code</span><span style="color: #000000; "> {
+	</span><span style="color: #808080; font-style: italic; ">//OQOF
+</span><span style="color: #000000; ">	</span><span style="color: #000000; ">QOF_BAD_PORT</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">x0000</span><span style="color: #000000; ">;          
+	</span><span style="color: #000000; ">QOF_BAD_QUEUE</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">x0001</span><span style="color: #000000; ">;
+    </span><span style="color: #000000; ">QOF_EPERM</span><span style="color: #000000; ">=</span><span style="color: #008000; ">0</span><span style="color: #000000; ">x0002</span><span style="color: #000000; ">;  
+};
+
+</span><span style="color: #800000; font-weight: bold; ">class</span><span style="color: #000000; "> </span><span style="color: #000000; ">Ofp_error</span><span style="color: #000000; "> </span><span style="color: #800000; font-weight: bold; ">extends</span><span style="color: #000000; "> </span><span style="color: #000000; ">FieldsChunk</span><span style="color: #000000; "> {
+
+	</span><span style="color: #000000; ">uint16_t</span><span style="color: #000000; "> </span><span style="color: #000000; ">type</span><span style="color: #000000; ">;
+	</span><span style="color: #000000; ">uint16_t</span><span style="color: #000000; "> </span><span style="color: #000000; ">code</span><span style="color: #000000; ">;
+
+	</span><span style="color: #000000; ">chunkLength</span><span style="color: #000000; ">=</span><span style="color: #000000; ">B</span><span style="color: #000000; ">(</span><span style="color: #008000; ">4</span><span style="color: #000000; ">);
+}
+</span></pre>
+   <hr><p class="footer"><a href="http://creativecommons.org/licenses/by-sa/3.0" target="_top"><img src="by-sa.png"></a> This documentation is released under the <a href="http://creativecommons.org/licenses/by-sa/3.0" target="_top">Creative Commons license</a></p>
+   </body>
+</html>
