@@ -1,8 +1,10 @@
-"""Custom topology example
+"""Topo
+Three directly connected host for one switch:
 
-Two directly connected switches plus a host for each switch:
+             host
+  	      |
 
-   host --- switch --- switch --- host
+ host ---  switch --- host
 
 Adding the 'topos' dict with a key/value pair to generate our newly defined
 topology enables one to pass in '--topo=mytopo' from the command line.
@@ -22,13 +24,15 @@ class MyTopo( Topo ):
         # Add hosts and switches
         leftHost = self.addHost( 'h1',mac="aa:aa:aa:aa:aa:a1",ip="1.0.0.1/24")
         rightHost = self.addHost( 'h2',mac="aa:aa:aa:aa:aa:a2",ip="1.0.0.2/24")
-       	switch1 = self.addSwitch( 's1')
-        switch2 = self.addSwitch( 's2')
+	badHost = self.addHost( 'h3',mac="aa:aa:aa:aa:aa:a3",ip="1.0.0.3/24")
+       	switch = self.addSwitch( 's1')
 
         # Add links
-        self.addLink( leftHost, switch1 )
-	self.addLink( switch1, switch2 )        
-	self.addLink( switch2, rightHost )
+        self.addLink( leftHost, switch )
+        self.addLink( switch, rightHost )
+	self.addLink( switch, badHost )
+
+
 
 
 topos = { 'mytopo': ( lambda: MyTopo() ) }
