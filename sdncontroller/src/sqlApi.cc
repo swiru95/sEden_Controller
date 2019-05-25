@@ -12,6 +12,8 @@
 #include <cppconn/resultset.h>
 #include <cppconn/statement.h>
 
+using namespace chrono;
+using namespace sql;
 
 /**
  * This App3 works like this:

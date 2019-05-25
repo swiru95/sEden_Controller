@@ -31,10 +31,11 @@ O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 
 # Object files for local .cc, .msg and .sm files
 OBJS = \
-    $O/api.o \
     $O/simple_switch.o \
     $O/SimpleController.o \
+    $O/sqlApi.o \
     $O/SwitchProfile.o \
+    $O/xmlApi.o \
     $O/openflowmessages/OfpactionheadSerializer.o \
     $O/openflowmessages/OfperrorSerializer.o \
     $O/openflowmessages/OfpfeatureSerializer.o \
