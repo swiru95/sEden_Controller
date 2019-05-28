@@ -16,7 +16,7 @@ using namespace chrono;
 using namespace sql;
 
 /**
- * This App3 works like this:
+ * This sqlExampleApp works like this:
  * -OFP_PacketIn comming-> controller ask mysqldatabase if there is a flow
  * -ARP comming, controller examinated it and sending out reply with correct mac addres from XML flow.
  * Replay is sent to the outport from XML.
@@ -26,7 +26,7 @@ using namespace sql;
  * ipsrc,ipdst,macsrc,macdst,inport,outport are examinated and equaled to flows in XML file.
  * IPv6 doesnt supported
  */
-void SimpleController::app3(ChunkQueue& queue, int connId) {
+void SimpleController::sqlExampleApp(ChunkQueue& queue, int connId) {
 
     auto search = con2switch.find(connId);
     string sw = search->second;

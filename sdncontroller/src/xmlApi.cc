@@ -14,7 +14,7 @@
 
 using namespace chrono;
 using namespace sql;
-/** This App1 works like this:
+/** This sendingStraightWayARPSwitchApp works like this:
  * -ARP comming, controller says to switch to send it to the destinated out port.
  * -IPv4 comming, controller says to switch setting correct flow and then out packet to switch and passing it
  * to this port.
@@ -22,7 +22,7 @@ using namespace sql;
  * ipsrc,ipdst,macsrc,macdst,inport,outport are examinated and equaled to flows in XML file.
  * IPv6 doesnt supported
  */
-void SimpleController::app1(ChunkQueue& queue, int connId) {
+void SimpleController::sendingStraightWayARPSwitchApp(ChunkQueue& queue, int connId) {
 
     auto search = con2switch.find(connId);
     string sw = search->second;
@@ -331,7 +331,7 @@ void SimpleController::app1(ChunkQueue& queue, int connId) {
         //TODO
     }
 }
-/** This App2 works like this:
+/** This sendingResponseARPSwitchApp works like this:
  * -ARP comming, controller examinated it and sending out reply with correct mac addres from XML flow.
  * Replay is sent to the outport from XML.
  * -IPv4 comming, controller says to switch setting correct flow and then out packet to switch and passing it
@@ -340,7 +340,7 @@ void SimpleController::app1(ChunkQueue& queue, int connId) {
  * ipsrc,ipdst,macsrc,macdst,inport,outport are examinated and equaled to flows in XML file.
  * IPv6 doesnt supported
  */
-void SimpleController::app2(ChunkQueue& queue, int connId) {
+void SimpleController::sendingResponseARPSwitchApp(ChunkQueue& queue, int connId) {
 
     auto search = con2switch.find(connId);
     string sw = search->second;
@@ -670,7 +670,7 @@ void SimpleController::app2(ChunkQueue& queue, int connId) {
 
 }
 /**
- * This App4 works like this:
+ * This floodingARPSwitchApp works like this:
  * -OFP_PacketIn comming-> controller check XML if there is a flow
  * -ARP comming, controller examinated it and sending out to flood. (as normal)
  * -IPv4 comming, controller says to switch setting correct flow and then out packet to switch and passing it
@@ -679,7 +679,7 @@ void SimpleController::app2(ChunkQueue& queue, int connId) {
  * ipsrc,ipdst,macsrc,macdst,inport,outport are examinated and equaled to flows in XML file.
  * IPv6 doesnt supported
  */
-void SimpleController::app4(ChunkQueue& queue, int connId) {
+void SimpleController::floodingARPSwitchApp(ChunkQueue& queue, int connId) {
 
     auto search = con2switch.find(connId);
     string sw = search->second;
@@ -999,7 +999,7 @@ void SimpleController::app4(ChunkQueue& queue, int connId) {
  * ipsrc,ipdst,macsrc,macdst,inport,outport are examinated and equaled to flows in XML file.
  * IPv6 doesnt supported
  */
-void SimpleController::app5(ChunkQueue& queue, int connId) {
+void SimpleController::sendingResponseAndShuttingDownPortARPSwitchApp(ChunkQueue& queue, int connId) {
 
     auto search = con2switch.find(connId);
     string sw = search->second;

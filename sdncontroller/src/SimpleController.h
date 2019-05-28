@@ -84,11 +84,11 @@ public:
      * Applications are described in api.cc and others...
      * There are only declarations
      */
-    virtual void app1(ChunkQueue &queue, int connId);
-    virtual void app2(ChunkQueue &queue, int connId);
-    virtual void app3(ChunkQueue &queue, int connId);
-    virtual void app4(ChunkQueue &queue, int connId);
-    virtual void app5(ChunkQueue &queue, int connId);
+    virtual void sendingStraightWayARPSwitchApp(ChunkQueue &queue, int connId);
+    virtual void sendingResponseARPSwitchApp(ChunkQueue &queue, int connId);
+    virtual void sqlExampleApp(ChunkQueue &queue, int connId);
+    virtual void floodingARPSwitchApp(ChunkQueue &queue, int connId);
+    virtual void sendingResponseAndShuttingDownPortARPSwitchApp(ChunkQueue &queue, int connId);
     virtual void simpleSwitch(ChunkQueue &queue, int connId);
     //YOU CAN ADD YOUR OWN APPLICATION THERE
 

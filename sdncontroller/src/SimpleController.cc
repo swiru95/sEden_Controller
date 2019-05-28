@@ -139,7 +139,6 @@ void SimpleController::initialize(int stage) {
 
 }
 void SimpleController::handleMessage(cMessage *msg) {
-
     if (msg->isSelfMessage()) {
         handleSelfMessage(msg);
     } else if (msg->getKind() == TCP_I_PEER_CLOSED) {
@@ -148,6 +147,31 @@ void SimpleController::handleMessage(cMessage *msg) {
         delete msg;
         if (timersMap[connId]->isScheduled()) {
             cancelAndDelete(timersMap[connId]);
+            timersMap[connId] = nullptr;
+            itTM = timersMap.find(connId);
+            timersMap.erase(itTM);
+        }
+        itC2S = con2switch.find(connId);
+        if (con2switch.size() > 1 && itC2S == con2switch.end()) {
+            EV_WARN
+                           << "NO SWITCH in con2switch map, Probably connection closed before OFP session has been established or might be port scanning!!"
+                           << endl;
+        }
+        itSM = switchMap.find(itC2S->second);
+        if (switchMap.size() > 1 && itSM == switchMap.end()) {
+            EV_WARN
+                           << "NO SWITCH in switchMap map BUT it is in con2switch, Probably connection closed before OFP session has been established or might be port scanning!!"
+                           << endl;
+        }
+        if (itSM->second != nullptr) {
+            delete itSM->second;
+            itSM->second = nullptr;
+            switchMap.erase(itSM);
+            itSM = switchMap.begin();
+        }
+        if (switchMap.size() == 0) {
+            state = CS_CLOSED;
+            EV << "CLOSED" << endl;
         }
         auto request = new Request("close", TCP_C_CLOSE);
         request->addTagIfAbsent<SocketReq>()->setSocketId(connId);
@@ -171,7 +195,8 @@ void SimpleController::handleMessage(cMessage *msg) {
             auto xid = appmsg->getXid();
             if (state == CS_ESTABLISHED) {
                 if (timersMap[connId]->isScheduled()) {
-                    cancelEvent(timersMap[connId]);
+                    EV << "SCHEDULED!!" << endl;
+                    timersMap[connId] = (timer*) cancelEvent(timersMap[connId]);
                     timersMap[connId]->setType(ECHO_INTERVAL_TIMER);
                     scheduleAt(simTime() + echoInterval, timersMap[connId]);
                 }
@@ -181,13 +206,16 @@ void SimpleController::handleMessage(cMessage *msg) {
                 sendHello(connId);
                 sendFeatureReq(connId);
                 if (timersMap[connId]->isScheduled()) {
-                    cancelEvent(timersMap[connId]);
+                    timersMap[connId] = (timer*) cancelEvent(timersMap[connId]);
                     timersMap[connId]->setType(FEATURE_WAIT_TIMER);
                     scheduleAt(simTime() + featuresWaitInterval,
                             timersMap[connId]);
                 }
-                state = CS_FEATURE_WAIT;
-            } else if (type == OFPT_ECHO_REPLY) {
+                if (switchMap.size() == 0) {
+                    state = CS_FEATURE_WAIT;
+                    EV << "FEATURES WAIT" << endl;
+                }
+            } else if (type == OFPT_ECHO_REPLY and state == CS_ESTABLISHED) {
                 echoRepRec++;
             } else if (type == OFPT_ECHO_REQUEST and state == CS_ESTABLISHED) {
                 echoReqRec++;
@@ -198,50 +226,56 @@ void SimpleController::handleMessage(cMessage *msg) {
             } else if (type == OFPT_FEATURES_REPLY
                     and (state == CS_FEATURE_WAIT or state == CS_ESTABLISHED)) { //32B
                 state = CS_ESTABLISHED;
+                EV << "ESTABLISHED!" << endl;
                 featRec++;
                 handleOfpFeature(queue, connId, headLen);
                 if (timersMap[connId]->isScheduled()) {
-                    cancelEvent(timersMap[connId]);
+                    timersMap[connId] = (timer*) cancelEvent(timersMap[connId]);
                     timersMap[connId]->setType(ECHO_INTERVAL_TIMER);
                     scheduleAt(simTime() + echoInterval, timersMap[connId]);
                 }
-            } else if (type == OFPT_GET_CONFIG_REPLY) {
+            } else if (type == OFPT_GET_CONFIG_REPLY
+                    and state == CS_ESTABLISHED) {
                 getConRepRec++;
                 handleOfpConfig(queue, connId);
             } else if (type == OFPT_PACKET_IN and state == CS_ESTABLISHED) {
                 packInRec++;
                 handleOfpPacketIn(queue, connId);
-            } else if (type == OFPT_FLOW_REMOVED) {
+            } else if (type == OFPT_FLOW_REMOVED and state == CS_ESTABLISHED) {
                 flRemRec++;
                 handleOfpFlowRemoved(queue, connId);
-            } else if (type == OFPT_PORT_STATUS) {
+            } else if (type == OFPT_PORT_STATUS and state == CS_ESTABLISHED) {
                 portStRec++;
                 handleOfpPortStatus(queue, connId);
-            } else if (type == OFPT_STATS_REPLY) {
+            } else if (type == OFPT_STATS_REPLY and state == CS_ESTABLISHED) {
                 statRepRec++;
                 handleOfpStat(queue, connId);
-            } else if (type == OFPT_QUEUE_GET_CONFIG_REPLY) {
+            } else if (type == OFPT_QUEUE_GET_CONFIG_REPLY
+                    and state == CS_ESTABLISHED) {
             }
         } else {
             //TODO Security Risk (if it will be other fake OFP msg (version doestn exists)
             std::string st =
                     "NOT OFLOW MSG!! SimpleCOntroller Ln115! ConnectionId: ";
             st.append(std::to_string(connId));
-            perror(st.c_str());
+            EV_WARN << st.c_str() << endl;
         }
         queue.clear();
         delete msg;
     } else if (msg->getKind() == TCP_I_AVAILABLE) {
         socket.processMessage(msg);
     } else if (msg->getKind() == TCP_I_ESTABLISHED) {
-        EV << "ESTABLISHED!!!" << endl;
-        state = CS_HELLO_WAIT;
+        if (switchMap.size() == 0) {
+            state = CS_HELLO_WAIT;
+            EV << "HELLO WAIT" << endl;
+        }
         int connId =
                 check_and_cast<Indication *>(msg)->getTag<SocketInd>()->getSocketId();
-        EV << "1 CONNECTION AT: " << connId << endl;
+        EV << "HERE: " << connId << endl;
         timersMap[connId] = new timer();
         timersMap[connId]->setConnId(connId);
         timersMap[connId]->setType(HELLO_WAIT_TIMER);
+        EV << "CONN ID in timer: " << timersMap[connId]->getConnId() << endl;
         scheduleAt(simTime() + helloWaitInterval, timersMap[connId]);
     } else {
         // some indication -- ignore
@@ -310,23 +344,23 @@ void SimpleController::sendEchoRep(int connId, int xId) {
 }
 void SimpleController::handleOfpPacketIn(ChunkQueue& queue, int connId) {
     EV << "APPLICATION : " << application << endl;
-    if (strcmp(application.c_str(), "App1") == 0) {
-        app1(queue, connId);
+    if (strcmp(application.c_str(), "arpMan1") == 0) {
+        floodingARPSwitchApp(queue, connId);
     }
-    if (strcmp(application.c_str(), "App2") == 0) {
-        app2(queue, connId);
+    if (strcmp(application.c_str(), "arpMan2") == 0) {
+        sendingStraightWayARPSwitchApp(queue, connId);
     }
-    if (strcmp(application.c_str(), "App3") == 0) {
-        app3(queue, connId);
+    if (strcmp(application.c_str(), "arpMan3") == 0) {
+        sendingResponseARPSwitchApp(queue, connId);
     }
-    if (strcmp(application.c_str(), "App4") == 0) {
-        app4(queue, connId);
+    if (strcmp(application.c_str(), "arpMan4") == 0) {
+        sendingResponseAndShuttingDownPortARPSwitchApp(queue, connId);
     }
-    if (strcmp(application.c_str(), "App5") == 0) {
-        app5(queue, connId);
+    if (strcmp(application.c_str(), "arpManSql") == 0) {
+        sqlExampleApp(queue, connId);
     }
     if (strcmp(application.c_str(), "Simple_switch") == 0) {
-        simpleSwitch(queue, connId);
+        /*    simpleSwitch(queue, connId); NOT DONE YET*/
     }
     return;
 }
@@ -445,13 +479,24 @@ void SimpleController::sendFeatureReq(int connId) {
     featSend++;
 }
 void SimpleController::handleSelfMessage(cMessage *msg) {
+    EV << "SELF MESSAGE!" << endl;
     timer* t = dynamic_cast<timer*>(msg);
     if (t) {
         auto type = t->getType();
         auto connId = t->getConnId();
+        itTM = timersMap.find(connId);
+        if (itTM == timersMap.end() && timersMap.size() > 1) {
+            perror("SimpleController.cc ln:473>> No timer in timersMap!");
+        } else {
+            timersMap.erase(itTM);
+            itTM = timersMap.begin();
+        }
         switch (type) {
         case ECHO_INTERVAL_TIMER: {
+            EV_WARN << "CONN ID:" << connId << " ECHO INTERVAL TIMER" << endl;
             sendEchoReq(connId);
+            timersMap[connId] = new timer();
+            timersMap[connId]->setConnId(connId);
             timersMap[connId]->setType(ECHO_CANCEL_TIMER);
             scheduleAt(simTime() + echoCancelInterval, timersMap[connId]);
             return;
@@ -461,11 +506,27 @@ void SimpleController::handleSelfMessage(cMessage *msg) {
             request->addTagIfAbsent<SocketReq>()->setSocketId(connId);
             sendBack(request);
             itC2S = con2switch.find(connId);
+            if (con2switch.size() > 1 && itC2S == con2switch.end()) {
+                EV_WARN
+                               << "NO SWITCH in con2switch map, Probably connection closed before OFP session has been established or might be port scanning!!"
+                               << endl;
+            }
             itSM = switchMap.find(itC2S->second);
-            delete itSM->second;
-            itSM->second = nullptr;
-            switchMap.erase(itSM);
-            con2switch.erase(itC2S);
+            if (switchMap.size() > 1 && itSM == switchMap.end()) {
+                EV_WARN
+                               << "NO SWITCH in switchMap map BUT it is in con2switch, Probably connection closed before OFP session has been established or might be port scanning!!"
+                               << endl;
+            }
+            if (itSM->second != nullptr) {
+                delete itSM->second;
+                itSM->second = nullptr;
+                switchMap.erase(itSM);
+                itSM = switchMap.begin();
+            }
+            if (switchMap.size() == 0) {
+                state = CS_CLOSED;
+                EV << "CLOSED" << endl;
+            }
             itC2S = con2switch.begin();
             itSM = switchMap.begin();
             delete msg;

@@ -1,0 +1,187 @@
+version 2
+run try-0-20190528-17:33:49-29640
+attr configname try
+attr datetime 20190528-17:33:49
+attr experiment try
+attr inifile omnetpp.ini
+attr iterationvars ""
+attr iterationvarsf ""
+attr measurement ""
+attr network sdncontroller.simulations.Net1
+attr processid 29640
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 0
+attr seedset 0
+param **.host.app[0].mntopo "\"net1\""
+param **.host.app[0].application "\"arpMan1\""
+param **.host.app[0].flows "xmldoc(\"flows/flow2.xml\")"
+param **.networkConfiguratorModule "\"\""
+param **.host.**.crcMode "\"computed\""
+param **.host.numExtInterfaces 1
+param **.host.ext[0].ext.filterString "\"ip dst host 10.1.1.1\""
+param **.host.ext[0].ext.device "\"wlo1\""
+param **.host.ext[0].ext.mtu 1500B
+param **.host.ipv4.routingTable.routingFile "\"routes.mrt\""
+param **.host.numApps 1
+param **.host.app[0].typename "\"sdncontroller.SimpleController\""
+param **.host.app[0].localAddress "\"10.1.1.1\""
+param **.host.app[0].log2file true
+
+scalar Net1.host.lo[0].lo rcvdPkFromHl:count 0
+attr interpolationmode none
+attr source packetReceivedFromUpper
+attr title "packets received from higher layer, count"
+scalar Net1.host.lo[0].lo rcvdPkFromHl:sum(packetBytes) 0
+attr interpolationmode none
+attr source packetReceivedFromUpper
+attr title "packets received from higher layer, sum(packetBytes)"
+scalar Net1.host.lo[0].lo passedUpPk:count 0
+attr interpolationmode none
+attr source packetSentToUpper
+attr title "packets passed to higher layer, count"
+scalar Net1.host.lo[0].lo passedUpPk:sum(packetBytes) 0
+attr interpolationmode none
+attr source packetSentToUpper
+attr title "packets passed to higher layer, sum(packetBytes)"
+scalar Net1.host.ext[0].ext "Received Packets" 23
+scalar Net1.host.ext[0].ext "Dropped Packets" 0
+scalar Net1.host.ext[0].ext rcvdPkFromHl:count 0
+attr interpolationmode none
+attr source packetReceivedFromUpper
+attr title "packets received from higher layer, count"
+scalar Net1.host.ext[0].ext rcvdPkFromHl:sum(packetBytes) 0
+attr interpolationmode none
+attr source packetReceivedFromUpper
+attr title "packets received from higher layer, sum(packetBytes)"
+scalar Net1.host.ext[0].ext passedUpPk:count 0
+attr interpolationmode none
+attr source packetSentToUpper
+attr title "packets passed to higher layer, count"
+scalar Net1.host.ext[0].ext passedUpPk:sum(packetBytes) 0
+attr interpolationmode none
+attr source packetSentToUpper
+attr title "packets passed to higher layer, sum(packetBytes)"
+scalar Net1.host.ipv4.ip packetDropAddressResolutionFailed:count 0
+attr interpolationmode none
+attr source packetDropReasonIsAddressResolutionFailed(packetDropped)
+attr title "packet drop: address resolution failed, count"
+scalar Net1.host.ipv4.ip packetDropAddressResolutionFailed:sum(packetBytes) 0
+attr interpolationmode none
+attr source packetDropReasonIsAddressResolutionFailed(packetDropped)
+attr title "packet drop: address resolution failed, sum(packetBytes)"
+scalar Net1.host.ipv4.ip packetDropHopLimitReached:count 0
+attr interpolationmode none
+attr source packetDropReasonIsHopLimitReached(packetDropped)
+attr title "packet drop: hop limit reached, count"
+scalar Net1.host.ipv4.ip packetDropHopLimitReached:sum(packetBytes) 0
+attr interpolationmode none
+attr source packetDropReasonIsHopLimitReached(packetDropped)
+attr title "packet drop: hop limit reached, sum(packetBytes)"
+scalar Net1.host.ipv4.ip packetDropForwardingDisabled:count 0
+attr interpolationmode none
+attr source packetDropReasonIsForwardingDisabled(packetDropped)
+attr title "packet drop: forwarding disabled, count"
+scalar Net1.host.ipv4.ip packetDropForwardingDisabled:sum(packetBytes) 0
+attr interpolationmode none
+attr source packetDropReasonIsForwardingDisabled(packetDropped)
+attr title "packet drop: forwarding disabled, sum(packetBytes)"
+scalar Net1.host.ipv4.ip packetDropNoInterfaceFound:count 0
+attr interpolationmode none
+attr source packetDropReasonIsNoInterfaceFound(packetDropped)
+attr title "packet drop: no interface found, count"
+scalar Net1.host.ipv4.ip packetDropNoInterfaceFound:sum(packetBytes) 0
+attr interpolationmode none
+attr source packetDropReasonIsNoInterfaceFound(packetDropped)
+attr title "packet drop: no interface found, sum(packetBytes)"
+scalar Net1.host.ipv4.ip packetDropNoRouteFound:count 0
+attr interpolationmode none
+attr source packetDropReasonIsNoRouteFound(packetDropped)
+attr title "packet drop: no route found, count"
+scalar Net1.host.ipv4.ip packetDropNoRouteFound:sum(packetBytes) 0
+attr interpolationmode none
+attr source packetDropReasonIsNoRouteFound(packetDropped)
+attr title "packet drop: no route found, sum(packetBytes)"
+scalar Net1.host.ipv4.ip packetDropUndefined:count 0
+attr interpolationmode none
+attr source packetDropReasonIsUndefined(packetDropped)
+attr title "packet drop: undefined, count"
+scalar Net1.host.ipv4.ip packetDropUndefined:sum(packetBytes) 0
+attr interpolationmode none
+attr source packetDropReasonIsUndefined(packetDropped)
+attr title "packet drop: undefined, sum(packetBytes)"
+scalar Net1.host.ipv4.arp arpResolutionFailed:count 0
+attr title "ARP failed resolutions, count"
+scalar Net1.host.ipv4.arp arpResolutionCompleted:count 0
+attr title "ARP completed resolutions, count"
+scalar Net1.host.ipv4.arp arpResolutionInitiated:count 0
+attr title "ARP initiated resolutions, count"
+scalar Net1.host.ipv4.arp arpReplySent:count 0
+attr source arpReplySent
+attr title "ARP replies sent, count"
+scalar Net1.host.ipv4.arp arpReplySent:sum(packetBytes) 0
+attr source arpReplySent
+attr title "ARP replies sent, sum(packetBytes)"
+scalar Net1.host.ipv4.arp arpRequestSent:count 0
+attr source arpRequestSent
+attr title "ARP request sent, count"
+scalar Net1.host.ipv4.arp arpRequestSent:sum(packetBytes) 0
+attr source arpRequestSent
+attr title "ARP request sent, sum(packetBytes)"
+scalar Net1.host.udp packetReceived:count 0
+attr interpolationmode none
+attr source packetReceived
+attr title "packets received, count"
+scalar Net1.host.udp packetReceived:sum(packetBytes) 0
+attr interpolationmode none
+attr source packetReceived
+attr title "packets received, sum(packetBytes)"
+scalar Net1.host.udp packetSent:count 0
+attr interpolationmode none
+attr source packetSent
+attr title "packets sent, count"
+scalar Net1.host.udp packetSent:sum(packetBytes) 0
+attr interpolationmode none
+attr source packetSent
+attr title "packets sent, sum(packetBytes)"
+scalar Net1.host.udp passedUpPk:count 0
+attr interpolationmode none
+attr source packetSentToUpper
+attr title "packets passed up, count"
+scalar Net1.host.udp droppedPkWrongPort:count 0
+attr interpolationmode none
+attr source packetDropReasonIsNoPortFound(packetDropped)
+attr title "packets dropped (wrong port), count"
+scalar Net1.host.udp droppedPkBadChecksum:count 0
+attr interpolationmode none
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packets dropped (checksum error), count"
+scalar Net1.host.app[0] "Received HELLO" 1
+scalar Net1.host.app[0] "Received ECHO_REQ" 3
+scalar Net1.host.app[0] "Received ECHO_REP" 1
+scalar Net1.host.app[0] "Received ERROR" 0
+scalar Net1.host.app[0] "Received FEATURES_REP" 1
+scalar Net1.host.app[0] "Received CONFIG_REP" 0
+scalar Net1.host.app[0] "Received PACKET_IN" 0
+scalar Net1.host.app[0] "Received FLOW_REMOVED" 0
+scalar Net1.host.app[0] "Received PORT_STATUS_REP" 0
+scalar Net1.host.app[0] "Received STATISTICS_REP" 0
+scalar Net1.host.app[0] "Received BARRIER_REP" 0
+scalar Net1.host.app[0] "Received ARP Requests via PACKET_IN payload" 0
+scalar Net1.host.app[0] "Received ARP Replies via PACKET_IN payload" 0
+scalar Net1.host.app[0] "Received IPv4 via PACKET_IN payload" 0
+scalar Net1.host.app[0] "Sent HELLO" 1
+scalar Net1.host.app[0] "Sent ECHO_REQ" 1
+scalar Net1.host.app[0] "Sent ECHO_REP" 3
+scalar Net1.host.app[0] "Sent ERROR" 0
+scalar Net1.host.app[0] "Sent FEATURES_REP" 1
+scalar Net1.host.app[0] "Sent CONFIG_REP" 0
+scalar Net1.host.app[0] "Sent PACKET_OUT" 0
+scalar Net1.host.app[0] "Sent FLOW_MOD" 0
+scalar Net1.host.app[0] "Sent STATISTICS_REP" 0
+scalar Net1.host.app[0] "Sent BARRIER_REP" 0
+scalar Net1.host.app[0] "Sent ARP Requests via PACKET_OUT payload" 0
+scalar Net1.host.app[0] "Sent ARP Replies via PACKET_OUT payload" 0
+scalar Net1.host.app[0] "Sent IPv4 via PACKET_OUT payload" 0
+
