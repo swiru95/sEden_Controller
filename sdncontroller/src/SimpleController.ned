@@ -57,6 +57,12 @@ simple SimpleController like IApp
         string dbPassword=default(""); //DB password (optional)
         //TO be done: logging errors not to file but to DB table! WoW
         string dbErrorName=default(""); //Database of Errors //not done yet
+        //statistics
+    	@signal[StateS](type=long);
+    	@signal[pkS](type=cPacket?);
+        @statistic[StateT](source=StateS; record=vector);
+        @statistic[packSize](source=packetBytes(pkS); record=sum,vector);
+        
     gates:
         input socketIn @labels(TcpCommand/up);
         output socketOut @labels(TcpCommand/down);

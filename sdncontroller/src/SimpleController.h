@@ -113,7 +113,8 @@ protected:
             errorRec, errorSend, featSend, featRec, getConReqSend, getConRepRec,
             setConSend, packInRec, packOutSend, flRemRec, flModSend, portStRec,
             portModSend, statReqSend, statRepRec, barReqSend, barRepRec;
-
+    simsignal_t stateSignal;
+    simsignal_t packetSignal;
     /**
      * There are also network messages delivered by PacketIn msgs counters.
      * Can be added for your own need.

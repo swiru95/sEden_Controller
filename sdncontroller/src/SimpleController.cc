@@ -37,17 +37,19 @@ void SimpleController::initialize(int stage) {
                 (simtime_t) par("echoCancelInterval").doubleValue();
         if (echoCancelInterval < 0)
             error("echoCancelInterval parameter cannot be negative.");
-        tIdle = (uint16_t) par("time_idle").longValue();
-        if (tIdle < 0)
+        auto x = par("time_idle").intValue();
+        if (x < 0)
             error("time_idle parameter cannot be negative.");
-        tHard = (uint16_t) par("time_hard").longValue();
-        if (tHard < 0)
+        tIdle = (uint16_t) x;
+        x = par("time_hard").intValue();
+        if (x < 0)
             error("time_hard parameter cannot be negative.");
+        tHard = (uint16_t) x;
         application = par("application").stringValue();
         if (strcmp(application.c_str(), "") == 0)
             error(
                     "application parameter - sdncontroller needs an application.");
-        if (strcmp(application.c_str(), "App3") == 0) {
+        if (strcmp(application.c_str(), "arpManSql") == 0) {
             dbIpAddr = par("dbIpAddr").stringValue();
             if (strcmp(dbIpAddr.c_str(), "") == 0)
                 error("You should precise DB IP address (dbIpAddr).");
@@ -64,6 +66,8 @@ void SimpleController::initialize(int stage) {
         }
 
         //STATS
+        stateSignal = registerSignal("StateS");
+        packetSignal = registerSignal("pkS");
         helloRec = 0, helloSend = 0, echoReqRec = 0, echoReqSend = 0, echoRepRec =
                 0, echoRepSend = 0, errorRec = 0, errorSend = 0, featSend = 0, featRec =
                 0, getConReqSend = 0, getConRepRec = 0, setConSend = 0, packInRec =
@@ -106,7 +110,7 @@ void SimpleController::initialize(int stage) {
             throw cRuntimeError(
                     "This module doesn't support starting in node DOWN state");
         state = CS_CLOSED;
-
+        emit(stateSignal,CS_CLOSED);
         if (par("runWireshark").boolValue()) {
             auto inter =
                     getModuleByPath("host.ext[0].ext")->par("device").stringValue();
@@ -171,15 +175,15 @@ void SimpleController::handleMessage(cMessage *msg) {
         }
         if (switchMap.size() == 0) {
             state = CS_CLOSED;
-            EV << "CLOSED" << endl;
+            emit(stateSignal,CS_CLOSED);
         }
         auto request = new Request("close", TCP_C_CLOSE);
         request->addTagIfAbsent<SocketReq>()->setSocketId(connId);
         sendBack(request);
     } else if (msg->getKind() == TCP_I_DATA
             || msg->getKind() == TCP_I_URGENT_DATA) {
-
         Packet *packet = check_and_cast<Packet *>(msg);
+        emit(packetSignal,packet);
         int connId = packet->getTag<SocketInd>()->getSocketId();
         ChunkQueue &queue = socketQueue[connId];
         auto chunk = packet->peekDataAt(B(0), packet->getTotalLength());
@@ -195,7 +199,6 @@ void SimpleController::handleMessage(cMessage *msg) {
             auto xid = appmsg->getXid();
             if (state == CS_ESTABLISHED) {
                 if (timersMap[connId]->isScheduled()) {
-                    EV << "SCHEDULED!!" << endl;
                     timersMap[connId] = (timer*) cancelEvent(timersMap[connId]);
                     timersMap[connId]->setType(ECHO_INTERVAL_TIMER);
                     scheduleAt(simTime() + echoInterval, timersMap[connId]);
@@ -213,7 +216,7 @@ void SimpleController::handleMessage(cMessage *msg) {
                 }
                 if (switchMap.size() == 0) {
                     state = CS_FEATURE_WAIT;
-                    EV << "FEATURES WAIT" << endl;
+                    emit(stateSignal,CS_FEATURE_WAIT);
                 }
             } else if (type == OFPT_ECHO_REPLY and state == CS_ESTABLISHED) {
                 echoRepRec++;
@@ -226,7 +229,7 @@ void SimpleController::handleMessage(cMessage *msg) {
             } else if (type == OFPT_FEATURES_REPLY
                     and (state == CS_FEATURE_WAIT or state == CS_ESTABLISHED)) { //32B
                 state = CS_ESTABLISHED;
-                EV << "ESTABLISHED!" << endl;
+                emit(stateSignal,CS_ESTABLISHED);
                 featRec++;
                 handleOfpFeature(queue, connId, headLen);
                 if (timersMap[connId]->isScheduled()) {
@@ -254,11 +257,10 @@ void SimpleController::handleMessage(cMessage *msg) {
                     and state == CS_ESTABLISHED) {
             }
         } else {
-            //TODO Security Risk (if it will be other fake OFP msg (version doestn exists)
             std::string st =
                     "NOT OFLOW MSG!! SimpleCOntroller Ln115! ConnectionId: ";
             st.append(std::to_string(connId));
-            EV_WARN << st.c_str() << endl;
+            EV_WARN << "WARNING PROBABLY ATTACK!" << st.c_str() << endl;
         }
         queue.clear();
         delete msg;
@@ -267,15 +269,13 @@ void SimpleController::handleMessage(cMessage *msg) {
     } else if (msg->getKind() == TCP_I_ESTABLISHED) {
         if (switchMap.size() == 0) {
             state = CS_HELLO_WAIT;
-            EV << "HELLO WAIT" << endl;
+            emit(stateSignal,CS_HELLO_WAIT);
         }
         int connId =
                 check_and_cast<Indication *>(msg)->getTag<SocketInd>()->getSocketId();
-        EV << "HERE: " << connId << endl;
         timersMap[connId] = new timer();
         timersMap[connId]->setConnId(connId);
         timersMap[connId]->setType(HELLO_WAIT_TIMER);
-        EV << "CONN ID in timer: " << timersMap[connId]->getConnId() << endl;
         scheduleAt(simTime() + helloWaitInterval, timersMap[connId]);
     } else {
         // some indication -- ignore
@@ -359,8 +359,8 @@ void SimpleController::handleOfpPacketIn(ChunkQueue& queue, int connId) {
     if (strcmp(application.c_str(), "arpManSql") == 0) {
         sqlExampleApp(queue, connId);
     }
-    if (strcmp(application.c_str(), "Simple_switch") == 0) {
-        /*    simpleSwitch(queue, connId); NOT DONE YET*/
+    if (strcmp(application.c_str(), "errorCheckApp") == 0) {
+        simpleSwitch(queue, connId);
     }
     return;
 }
@@ -479,7 +479,6 @@ void SimpleController::sendFeatureReq(int connId) {
     featSend++;
 }
 void SimpleController::handleSelfMessage(cMessage *msg) {
-    EV << "SELF MESSAGE!" << endl;
     timer* t = dynamic_cast<timer*>(msg);
     if (t) {
         auto type = t->getType();
@@ -493,7 +492,6 @@ void SimpleController::handleSelfMessage(cMessage *msg) {
         }
         switch (type) {
         case ECHO_INTERVAL_TIMER: {
-            EV_WARN << "CONN ID:" << connId << " ECHO INTERVAL TIMER" << endl;
             sendEchoReq(connId);
             timersMap[connId] = new timer();
             timersMap[connId]->setConnId(connId);
@@ -525,7 +523,7 @@ void SimpleController::handleSelfMessage(cMessage *msg) {
             }
             if (switchMap.size() == 0) {
                 state = CS_CLOSED;
-                EV << "CLOSED" << endl;
+                emit(stateSignal,CS_CLOSED);
             }
             itC2S = con2switch.begin();
             itSM = switchMap.begin();
@@ -570,7 +568,7 @@ void SimpleController::finish() {
             delete itTM->second;
             itTM->second = nullptr;
             timersMap.erase(itTM);
-
+            itTM = timersMap.begin();
         }
         delete itSM->second;
         switchMap.erase(itSM);
