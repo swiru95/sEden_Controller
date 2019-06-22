@@ -30,9 +30,9 @@ simple SimpleController like IApp
         string localAddress = default(""); // local address; may be left empty ("")
         int localPort = default(6633);     // localPort number to listen on
         //Some openflow and controllerStateFlow params
-        double echoInterval @unit(ms)=default(5ms);//EchoMessage interval (not too much!)
-        double echoCancelInterval @unit(ms)=default(200ms);//waiting for EchoReqMsg interval
-        double helloWaitInterval @unit(ms)=default(500ms);//waiting for Hello in HelloWaitingState
+        double echoInterval @unit(ms)=default(100ms);//EchoMessage interval (not too much!)
+        double echoCancelInterval @unit(ms)=default(500ms);//waiting for EchoReqMsg interval
+        double helloWaitInterval @unit(ms)=default(1000ms);//waiting for Hello in HelloWaitingState
 		double featuresWaitInterval @unit(ms)=default(500ms);//waiting for Features in FeatureWaitState        
         int time_idle=default(5); //Idle time for ofp matches
         int time_hard=default(0); //Hard time for ofp matches

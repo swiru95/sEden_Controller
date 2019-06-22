@@ -45,26 +45,6 @@ void SimpleController::initialize(int stage) {
         if (x < 0)
             error("time_hard parameter cannot be negative.");
         tHard = (uint16_t) x;
-        application = par("application").stringValue();
-        if (strcmp(application.c_str(), "") == 0)
-            error(
-                    "application parameter - sdncontroller needs an application.");
-        if (strcmp(application.c_str(), "arpManSql") == 0) {
-            dbIpAddr = par("dbIpAddr").stringValue();
-            if (strcmp(dbIpAddr.c_str(), "") == 0)
-                error("You should precise DB IP address (dbIpAddr).");
-            dbPort = par("dbPort").stringValue();
-            if (strcmp(dbPort.c_str(), "") == 0)
-                error("You should precise DB Port (dbPort).");
-            dbUser = par("dbUser").stringValue();
-            if (strcmp(dbUser.c_str(), "") == 0)
-                error("You should precise DB User (dbIpAddr).");
-            dbPassword = par("dbPassword").stringValue();
-            dbName = par("dbName").stringValue();
-            if (strcmp(dbName.c_str(), "") == 0)
-                error("You should precise DB User (dbIpAddr).");
-        }
-
         //STATS
         stateSignal = registerSignal("StateS");
         packetSignal = registerSignal("pkS");
@@ -110,7 +90,7 @@ void SimpleController::initialize(int stage) {
             throw cRuntimeError(
                     "This module doesn't support starting in node DOWN state");
         state = CS_CLOSED;
-        emit(stateSignal,CS_CLOSED);
+        emit(stateSignal, CS_CLOSED);
         if (par("runWireshark").boolValue()) {
             auto inter =
                     getModuleByPath("host.ext[0].ext")->par("device").stringValue();
@@ -145,15 +125,18 @@ void SimpleController::initialize(int stage) {
 void SimpleController::handleMessage(cMessage *msg) {
     if (msg->isSelfMessage()) {
         handleSelfMessage(msg);
-    } else if (msg->getKind() == TCP_I_PEER_CLOSED) {
+    } else if (msg->getKind() == TCP_I_PEER_CLOSED
+            or msg->getKind() == TCP_I_TIMED_OUT) {
         int connId =
                 check_and_cast<Indication *>(msg)->getTag<SocketInd>()->getSocketId();
         delete msg;
-        if (timersMap[connId]->isScheduled()) {
-            cancelAndDelete(timersMap[connId]);
-            timersMap[connId] = nullptr;
-            itTM = timersMap.find(connId);
-            timersMap.erase(itTM);
+        if (timersMap[connId] != nullptr) {
+            if (timersMap[connId]->isScheduled()) {
+                cancelAndDelete(timersMap[connId]);
+                timersMap[connId] = nullptr;
+                itTM = timersMap.find(connId);
+                timersMap.erase(itTM);
+            }
         }
         itC2S = con2switch.find(connId);
         if (con2switch.size() > 1 && itC2S == con2switch.end()) {
@@ -175,7 +158,7 @@ void SimpleController::handleMessage(cMessage *msg) {
         }
         if (switchMap.size() == 0) {
             state = CS_CLOSED;
-            emit(stateSignal,CS_CLOSED);
+            emit(stateSignal, CS_CLOSED);
         }
         auto request = new Request("close", TCP_C_CLOSE);
         request->addTagIfAbsent<SocketReq>()->setSocketId(connId);
@@ -183,7 +166,7 @@ void SimpleController::handleMessage(cMessage *msg) {
     } else if (msg->getKind() == TCP_I_DATA
             || msg->getKind() == TCP_I_URGENT_DATA) {
         Packet *packet = check_and_cast<Packet *>(msg);
-        emit(packetSignal,packet);
+        emit(packetSignal, packet);
         int connId = packet->getTag<SocketInd>()->getSocketId();
         ChunkQueue &queue = socketQueue[connId];
         auto chunk = packet->peekDataAt(B(0), packet->getTotalLength());
@@ -216,7 +199,7 @@ void SimpleController::handleMessage(cMessage *msg) {
                 }
                 if (switchMap.size() == 0) {
                     state = CS_FEATURE_WAIT;
-                    emit(stateSignal,CS_FEATURE_WAIT);
+                    emit(stateSignal, CS_FEATURE_WAIT);
                 }
             } else if (type == OFPT_ECHO_REPLY and state == CS_ESTABLISHED) {
                 echoRepRec++;
@@ -229,7 +212,7 @@ void SimpleController::handleMessage(cMessage *msg) {
             } else if (type == OFPT_FEATURES_REPLY
                     and (state == CS_FEATURE_WAIT or state == CS_ESTABLISHED)) { //32B
                 state = CS_ESTABLISHED;
-                emit(stateSignal,CS_ESTABLISHED);
+                emit(stateSignal, CS_ESTABLISHED);
                 featRec++;
                 handleOfpFeature(queue, connId, headLen);
                 if (timersMap[connId]->isScheduled()) {
@@ -269,7 +252,7 @@ void SimpleController::handleMessage(cMessage *msg) {
     } else if (msg->getKind() == TCP_I_ESTABLISHED) {
         if (switchMap.size() == 0) {
             state = CS_HELLO_WAIT;
-            emit(stateSignal,CS_HELLO_WAIT);
+            emit(stateSignal, CS_HELLO_WAIT);
         }
         int connId =
                 check_and_cast<Indication *>(msg)->getTag<SocketInd>()->getSocketId();
@@ -343,6 +326,11 @@ void SimpleController::sendEchoRep(int connId, int xId) {
     return;
 }
 void SimpleController::handleOfpPacketIn(ChunkQueue& queue, int connId) {
+
+    string application = par("application").stringValue();
+    if (strcmp(application.c_str(), "") == 0)
+        error("application parameter - sdncontroller needs an application.");
+
     EV << "APPLICATION : " << application << endl;
     if (strcmp(application.c_str(), "arpMan1") == 0) {
         floodingARPSwitchApp(queue, connId);
@@ -523,7 +511,7 @@ void SimpleController::handleSelfMessage(cMessage *msg) {
             }
             if (switchMap.size() == 0) {
                 state = CS_CLOSED;
-                emit(stateSignal,CS_CLOSED);
+                emit(stateSignal, CS_CLOSED);
             }
             itC2S = con2switch.begin();
             itSM = switchMap.begin();
@@ -589,11 +577,12 @@ void SimpleController::finish() {
     recordScalar("Received ARP Requests via PACKET_IN payload", arpReqRec);
     recordScalar("Received ARP Replies via PACKET_IN payload", arpRepRec);
     recordScalar("Received IPv4 via PACKET_IN payload", ipV4Rec);
+    recordScalar("Received IPv6 via PACKET_IN payload", ipV6Rec);
 
     recordScalar("Sent HELLO", helloSend);
     recordScalar("Sent ECHO_REQ", echoReqSend);
     recordScalar("Sent ECHO_REP", echoRepSend);
-    recordScalar("Sent ERROR", errorRec);
+    recordScalar("Sent ERROR", errorSend);
     recordScalar("Sent FEATURES_REP", featSend);
     recordScalar("Sent CONFIG_REP", getConReqSend);
     recordScalar("Sent PACKET_OUT", packOutSend);

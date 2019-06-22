@@ -131,13 +131,6 @@ protected:
     uint16_t tIdle, tHard;
     //controller steerings
     bool runMininet = false, log2file=false;
-    //Choosen application name.
-    string application="";
-    string dbIpAddr;
-    string dbPort;
-    string dbUser;
-    string dbPassword;
-    string dbName;
 
     /**
      * All connection has own id and created and connected Queue of Chunks.

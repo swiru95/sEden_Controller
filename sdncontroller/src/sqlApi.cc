@@ -28,6 +28,22 @@ using namespace sql;
  */
 void SimpleController::sqlExampleApp(ChunkQueue& queue, int connId) {
 
+    string dbIpAddr = "", dbPort = "", dbUser = "", dbPassword = "",
+            dbName = "";
+    dbIpAddr = par("dbIpAddr").stringValue();
+    if (strcmp(dbIpAddr.c_str(), "") == 0)
+        error("You should precise DB IP address (dbIpAddr).");
+    dbPort = par("dbPort").stringValue();
+    if (strcmp(dbPort.c_str(), "") == 0)
+        error("You should precise DB Port (dbPort).");
+    dbUser = par("dbUser").stringValue();
+    if (strcmp(dbUser.c_str(), "") == 0)
+        error("You should precise DB User (dbIpAddr).");
+    dbPassword = par("dbPassword").stringValue();
+    dbName = par("dbName").stringValue();
+    if (strcmp(dbName.c_str(), "") == 0)
+        error("You should precise DB User (dbIpAddr).");
+
     auto search = con2switch.find(connId);
     string sw = search->second;
     if (!strcmp("", sw.c_str())) {
@@ -206,6 +222,29 @@ void SimpleController::sqlExampleApp(ChunkQueue& queue, int connId) {
             srcIpAddr = appArpData->getSrcIpAddress().str();
             dstIpAddr = appArpData->getDestIpAddress().str();
             if (appArpData->getOpcode() == ARP_REPLY) {
+                arpRepRec++;
+                Packet *outPacket = new Packet("PORT_MODE");
+                outPacket->addTagIfAbsent<SocketReq>()->setSocketId(connId);
+                outPacket->addTagIfAbsent<DispatchProtocolReq>()->setProtocol(
+                        &Protocol::tcp);
+                outPacket->setKind(TCP_C_SEND);
+                const auto& payload = makeShared<Ofp_header>();
+                payload->setVersion(OFPV_v100);
+                payload->setType(OFPT_PORT_MOD);
+                payload->setXid(getEnvir()->getUniqueNumber());
+                uint16_t len = OFP_HEADER_SIZE + OFP_PORT_MODE_SIZE;
+                payload->setLength(len);
+                outPacket->insertAtBack(payload);
+                const auto& portmod = makeShared<Ofp_port_mode>();
+                portmod->setPort_no(appPktInMsg->getIn_port());
+                itSM = switchMap.find((char*) sw.c_str());
+                portmod->setHw_addr(
+                        itSM->second->getPortHw(appPktInMsg->getIn_port()));
+                portmod->setConfig(PORT_DOWN + NO_FWD + NO_PACKET_IN);
+                portmod->setMask(0x00000061);   //PORT_DOWN,NO_FWD,NO_PCK_IN
+                outPacket->insertAtBack(portmod);
+                send(outPacket, "socketOut");
+                portModSend++;
                 if (log2file) {
                     string filestr = "logs/"
                             + string(getParentModule()->getName())
@@ -225,6 +264,7 @@ void SimpleController::sqlExampleApp(ChunkQueue& queue, int connId) {
                 delete con;
                 return;
             }
+            arpReqRec++;
             query = "SELECT macdst,portout FROM flows WHERE "
                     "switchname='" + sw + "' and "
                     "portin=" + to_string(appPktInMsg->getIn_port()) + " and "
@@ -297,7 +337,7 @@ void SimpleController::sqlExampleApp(ChunkQueue& queue, int connId) {
             outPacket->insertAtBack(arpRep);
 
             send(outPacket, "socketOut");
-
+            arpRepSend++;
             delete res;
             delete stmt;
             delete con;
@@ -305,7 +345,7 @@ void SimpleController::sqlExampleApp(ChunkQueue& queue, int connId) {
         }
         if (appEthData->getTypeOrLength() == ETHERTYPE_IPv6) {
             EV << "IPV6" << endl;
-
+            ipV6Rec++;
             //TODO
             delete res;
             delete stmt;
