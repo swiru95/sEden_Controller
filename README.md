@@ -1,6 +1,6 @@
 # This is sEden Controller
-it contains
-# omnetpp_sdncontroller
+(omnetpp_sdncontroller)
+
 SDN Controller in OMNeT++ 5/INET_Framework4.0.0
 
 Created by Krzysztof Świdrak
